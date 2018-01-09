@@ -1,0 +1,12 @@
+{
+  "name": "Webpack-Vue",
+  "version": "1.0.0",
+  "description": "my development environmnet",
+  "main": "index.js",
+  "author": "jesse152@163.com",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "0.17.1",
+    "vue": "2.5.13"
+  }
+}
