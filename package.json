@@ -2,11 +2,36 @@
   "name": "Webpack-Vue",
   "version": "1.0.0",
   "description": "my development environmnet",
-  "main": "index.js",
+  "main": "webpack.config.js",
+  "scripts": {
+    "dll": "webpack --progress --colors --config ./webpack-dll.config.js",
+    "watch": "webpack --progress --watch",
+    "pc_dll": "set PLATFORM=pc&&webpack --progress --colors --config ./webpack-dll.config.js"
+  },
   "author": "jesse152@163.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Jesse121/Webpack-Vue.git"
+  },
   "license": "MIT",
   "dependencies": {
     "axios": "0.17.1",
+    "gj-flexible": "^1.0.1",
     "vue": "2.5.13"
+  },
+  "devDependencies": {
+    "autoprefixer": "^7.2.4",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.1",
+    "css-loader": "^0.28.8",
+    "ejs-loader": "^0.3.0",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "html-webpack-plugin": "^2.30.1",
+    "less": "^2.7.3",
+    "less-loader": "^4.0.5",
+    "postcss-loader": "1.3.3",
+    "style-loader": "^0.19.1",
+    "webpack": "^3.10.0"
   }
 }

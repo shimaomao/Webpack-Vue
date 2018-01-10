@@ -1,7 +1,7 @@
 var path = require('path');
 
-var pcBaseEntryDir = '../src/pc/v1/';
-var mobileBaseEntryDir = '../src/mobile/v1/';
+var pcBaseEntryDir = '../src/pc/';
+var mobileBaseEntryDir = '../src/app/';
 
 var baseEntryDir = process.env.PLATFORM == 'pc' ? pcBaseEntryDir : mobileBaseEntryDir;
 
