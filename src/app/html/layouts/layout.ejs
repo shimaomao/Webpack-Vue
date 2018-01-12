@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="wap-font-scale" content="no">
+        <meta name="apple-itunes-app" content="app-id=1172175752, app-argument=tv.guojiang.tuhaotimes://m.<%= app.domain %>/444444">
+        <% if(app.packageId == 1){ %>
+        <link rel="shortcut icon" href="http://static.<%= app.domain %>/dist/mobile/img/common/gogolive/title_icon.png?v=085b901a7e" type="image/x-icon">
+        <link rel="apple-touch-icon" href="http://static.<%= app.domain %>/dist/mobile/img/common/gogolive/touch_icon.png?v=a15b4ac598" sizes="144x144">
+        <% }else{ %>
+        <link rel="shortcut icon" href="http://static.<%= app.domain %>/dist/mobile/img/common/title_icon.png?v=fc7136bd6e" type="image/x-icon">
+        <link rel="apple-touch-icon" href="http://static.<%= app.domain %>/dist/mobile/img/common/touch_icon.png" sizes="144x144">
+        <% } %>
+        <title><%= app.pageTitle %></title>
+    </head>
+
+<body>
+
+    <%= content %>
+
+    <script type="text/javascript" src="http://m.<%= app.domain %>:3000/js/lib/dll.js"></script>
+    <script type="text/javascript" src="http://m.<%= app.domain %>:3000/js/manifest.js"></script>
+    <script type="text/javascript">
+        var _czc = _czc || [];
+        _czc.push(["_setAccount", "1271582395"]);
+    </script>
+    <div style="display: none;">
+        <script src="http://s22.cnzz.com/z_stat.php?id=1271582395&web_id=1271582395"></script>
+        <script type="text/javascript">
+        var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");
+        document.write(unescape("<span id='cnzz_stat_icon_1271582395'></span><script src='" + cnzz_protocol + "s22.cnzz.com/z_stat.php?id=1271582395' type='text/javascript'><\/script>"));
+        </script>
+    </div>
+</body>
+</html>
+

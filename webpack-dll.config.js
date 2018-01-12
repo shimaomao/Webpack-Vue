@@ -12,18 +12,18 @@ var isPc = process.env.PLATFORM == 'pc' ? true : false;
 var resolveConfigDir = './config/resolve.config.js';
 
 if (isPc) {
-    var baseEntryDir = './static_guojiang_tv/src/pc/v4/';
-    var entryDir = baseEntryDir + '**/*.js';
-    var outDir = path.resolve(__dirname, './static_guojiang_tv/src/pc/v4');
-    var outPublicDir = 'http://static.guojiang.tv/pc/v4/';
-    var entries = ['vue', 'axios', 'layer', 'jquery'];
+    var baseEntryDir = './src/pc/';
+    // var entryDir = baseEntryDir + '**/*.js';
+    var outputDir = path.resolve(__dirname, './dist/pc/');
+    //var outPublicDir = 'http://static.guojiang.tv/pc/v4/';
+    var entries = ['vue', 'axios', 'jquery'];
     var dll_manifest_name = 'dll_manifest_pc';
 } else {
     var baseEntryDir = './src/app/';
-    var entryDir = baseEntryDir + '**/*.js';
-    var outDir = path.resolve(__dirname, './src/app/');
-    var outPublicDir = 'http://static.cblive.tv/dist/app/';
-    var entries = ['vue', 'axios', 'flexible'];
+    //var entryDir = baseEntryDir + '**/*.js';
+    var outputDir = path.resolve(__dirname, './dist/app/');
+    //var outPublicDir = 'http://static.cblive.tv/dist/app/';
+    var entries = ['vue', 'axios', 'flexible','webpack-zepto'];
     var dll_manifest_name = 'dll_manifest';
 }
 
@@ -35,8 +35,8 @@ module.exports = {
         dll: entries
     },
     output: {
-        path: outDir,
-        publicPath: outPublicDir,
+        path: outputDir,
+        //publicPath: outPublicDir,
         filename: 'js/dll/[name].js?v=[chunkhash:8]',
         library: '[name]_library',
         /*libraryTarget: 'umd'*/
@@ -55,7 +55,7 @@ module.exports = {
             {
                 test: /\.js$/,
                 loader: 'babel-loader',
-                exclude: ['node_modules', baseEntryDir + 'js/lib', baseEntryDir + 'js/component']
+                // exclude: ['node_modules', baseEntryDir + 'js/lib', baseEntryDir + 'js/component']
             }
             // ,{
             //     test: /\.css$/,
