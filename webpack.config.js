@@ -19,6 +19,8 @@ const HashedChunkIdsPlugin = require('./config/hashedChunkIdsPlugin.js');
 
 //是否是生产环境
 var prod = process.env.NODE_ENV === 'production' ? true : false;
+//是否是pc编译
+var isPc = process.env.PLATFORM == 'pc' ? true : false;
 
 //webpack配置
 var eslintConfigDir = prod ? './config/.eslintrc.js' : './config/.eslintrc.dev.js';
@@ -28,23 +30,41 @@ var resolveConfigDir = './config/resolve.config.js';
 //忽略不必要编译的文件
 // var entryIgnore = require('./entryignore.json');
 
+if (isPc) {
+    //pc版目录配置
+    console.log('***********************PC编译*************************');
 
-//目录配置
-var baseEntryDir = './src/app/js/';
-var entryDir = baseEntryDir + '**/*.js';
-var outputDir = path.resolve(__dirname, './dist/app/');
-// var outputPublicDir = 'http://static.joylive.tv/dist/app/';
+    var baseEntryDir = './src/pc/js/';
+    var entryDir = baseEntryDir + '**/*.js';
+    var outputDir = path.resolve(__dirname, './dist/pc/');
+    // var outputPublicDir = 'http://static.joylive.tv/dist/pc/';
+    var basePageEntry = './src/pc/html/';
+    var basePageOutput = './dist/pc/html/';
+    //需要清除的目录
+    var cleanDir = [
+        path.resolve(__dirname, './dist/pc/')
+    ];
 
-var basePageEntry = './src/app/html/';
-var basePageOutput = './dist/app/html/';
+    var dll_manifest_name = 'dll_manifest_pc';
+} else {
+    //触屏版目录配置
+    console.log('***********************触屏版编译*************************');
 
+    //目录配置
+    var baseEntryDir = './src/app/js/';
+    var entryDir = baseEntryDir + '**/*.js';
+    var outputDir = path.resolve(__dirname, './dist/app/');
+    // var outputPublicDir = 'http://static.joylive.tv/dist/app/';
+    var basePageEntry = './src/app/html/';
+    var basePageOutput = './dist/app/html/';
 
-//需要清除的目录
-var cleanDir = [
-    path.resolve(__dirname, './dist/app/')
-];
+    //需要清除的目录
+    var cleanDir = [
+        path.resolve(__dirname, './dist/app/')
+    ];
 
-var dll_manifest_name = 'dll_manifest';
+    var dll_manifest_name = 'dll_manifest';
+}
 
 //入口js文件配置以及公共模块配置
 var entries = getEntry(entryDir);
