@@ -1,29 +1,27 @@
 var path = require('path');
 var webpack = require('webpack');
-//var ExtractTextPlugin = require('extract-text-webpack-plugin');
-//var OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+var CleanWebpackPlugin = require('clean-webpack-plugin');
 var HashedChunkIdsPlugin = require('./config/hashedChunkIdsPlugin.js');
 
 //是否是pc编译
 var isPc = process.env.PLATFORM == 'pc' ? true : false;
 
 //webpack配置
-//var postcssConfigDir = './config/postcss.config.js';
 var resolveConfigDir = './config/resolve.config.js';
 
 if (isPc) {
     var baseEntryDir = './src/pc/';
     // var entryDir = baseEntryDir + '**/*.js';
-    var outputDir = path.resolve(__dirname, './dist/pc/');
+    var outputDir = path.resolve(__dirname, './src/pc/');
     //var outPublicDir = 'http://static.guojiang.tv/pc/v4/';
     var entries = ['vue', 'axios', 'jquery'];
     var dll_manifest_name = 'dll_manifest_pc';
 } else {
     var baseEntryDir = './src/app/';
     //var entryDir = baseEntryDir + '**/*.js';
-    var outputDir = path.resolve(__dirname, './dist/app/');
+    var outputDir = path.resolve(__dirname, './src/app/');
     //var outPublicDir = 'http://static.cblive.tv/dist/app/';
-    var entries = ['vue', 'axios', 'flexible','webpack-zepto'];
+    var entries = ['vue', 'axios', 'flexible', 'webpack-zepto'];
     var dll_manifest_name = 'dll_manifest';
 }
 
@@ -37,7 +35,7 @@ module.exports = {
     output: {
         path: outputDir,
         //publicPath: outPublicDir,
-        filename: 'js/dll/[name].js?v=[chunkhash:8]',
+        filename: 'js/lib/[name].js?v=[chunkhash:8]',
         library: '[name]_library',
         /*libraryTarget: 'umd'*/
     },
@@ -46,8 +44,8 @@ module.exports = {
                 test: /\.js$/,
                 enforce: 'pre',
                 loader: 'eslint-loader',
-                include: path.resolve(__dirname, entryDir),
-                exclude: [baseEntryDir + 'js/lib', baseEntryDir + 'js/component'],
+                //include: path.resolve(__dirname, entryDir),
+                //exclude: [baseEntryDir + 'js/lib', baseEntryDir + 'js/component'],
                 options: {
                     fix: true
                 }
@@ -57,11 +55,6 @@ module.exports = {
                 loader: 'babel-loader',
                 // exclude: ['node_modules', baseEntryDir + 'js/lib', baseEntryDir + 'js/component']
             }
-            // ,{
-            //     test: /\.css$/,
-            //     use: ['style-loader', 'css-loader', 'postcss-loader'],
-            //     exclude: [baseEntryDir + 'css/lib']
-            // }
         ]
     },
     plugins: [
@@ -70,6 +63,7 @@ module.exports = {
                 NODE_ENV: '"production"'
             }
         }),
+        new CleanWebpackPlugin([ outputDir +'/js/lib']),
         //压缩JS代码
         new webpack.optimize.UglifyJsPlugin({
             compress: {
@@ -77,23 +71,9 @@ module.exports = {
             },
             //sourceMap: true,
             output: {
-                comments: false, // 去掉注释内容
+                comments: false
             }
         }),
-
-        // new ExtractTextPlugin('css/[name].css?v=[contenthash:8]'),
-        // new webpack.LoaderOptionsPlugin({
-        //     options: {
-        //         postcss: require(postcssConfigDir)
-        //     },
-        // }),
-        // //压缩css代码
-        // new OptimizeCssAssetsPlugin({
-        //     assetNameRegExp: /\.css\.*(?!.*map)/g, //注意不要写成 /\.css$/g
-        //     cssProcessor: require('cssnano'),
-        //     cssProcessorOptions: { discardComments: { removeAll: true } },
-        //     canPrint: true
-        // }),
 
         //keep module.id stable when vender modules does not change
         new HashedChunkIdsPlugin(),
