@@ -3,7 +3,7 @@ require('../../css/demo/test.less');
 
 import Vue from 'vue';
 import axios from 'axios';
-import $ from 'webpack-zepto';
+import $ from 'jquery';
 
 new Vue({
     el: '#app',
@@ -17,7 +17,7 @@ new Vue({
 
     },
     mounted: function() {
-        console.log(axios);
+        console.log($);
     },
     methods: {
 

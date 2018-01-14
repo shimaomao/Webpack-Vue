@@ -1,6 +1,5 @@
 import '../../css/common/common.less';
-import $ from 'webpack-zepto';
-import flexible from 'flexible';
+import $ from 'jquery';
 
 
 //微信分享结果回调

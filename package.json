@@ -7,7 +7,9 @@
     "dll": "webpack --progress --colors --config ./webpack-dll.config.js",
     "watch": "webpack --progress --watch",
     "dev": "webpack-dev-server --progress",
-    "pc_dll": "set PLATFORM=pc&&webpack --progress --colors --config ./webpack-dll.config.js"
+    "pc_dll": "PLATFORM=pc webpack --progress --colors --config ./webpack-dll.config.js",
+    "pc_watch": "PLATFORM=pc webpack --progress --watch",
+    "pc_dev": "PLATFORM=pc webpack-dev-server --progress"
   },
   "author": "jesse152@163.com",
   "repository": {
