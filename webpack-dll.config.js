@@ -1,13 +1,13 @@
-var path = require('path');
-var webpack = require('webpack');
-var CleanWebpackPlugin = require('clean-webpack-plugin');
-var HashedChunkIdsPlugin = require('./config/hashedChunkIdsPlugin.js');
+const path = require('path');
+const webpack = require('webpack');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+const HashedChunkIdsPlugin = require('./config/hashedChunkIdsPlugin.js');
 
 //是否是pc编译
-var isPc = process.env.PLATFORM == 'pc' ? true : false;
+const isPc = process.env.PLATFORM == 'pc' ? true : false;
 
 //webpack配置
-var resolveConfigDir = './config/resolve.config.js';
+const resolveConfigDir = './config/resolve.config.js';
 
 if (isPc) {
     var baseEntryDir = './src/pc/';
@@ -22,7 +22,7 @@ if (isPc) {
     var outputDir = path.resolve(__dirname, './src/app/');
     //var outPublicDir = 'http://static.cblive.tv/dist/app/';
     var entries = ['vue', 'axios', 'flexible', 'webpack-zepto'];
-    var dll_manifest_name = 'dll_manifest';
+    var dll_manifest_name = 'dll_manifest_app';
 }
 
 

@@ -1,7 +1,7 @@
 .DS_Store
 node_modules/
 dist/
-dll_manifest.json
+dll_manifest_app.json
 dll_manifest_pc.json
 npm-debug.log*
 yarn-debug.log*
