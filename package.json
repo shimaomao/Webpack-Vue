@@ -1,12 +1,13 @@
 {
   "name": "Webpack-Vue",
   "version": "1.0.0",
-  "description": "my development environmnet",
+  "description": "my development environment",
   "main": "webpack.config.js",
   "scripts": {
     "dll": "webpack --progress --colors --config ./webpack-dll.config.js",
+    "dev": "webpack-dev-server --progress --config",
     "watch": "webpack --progress --watch",
-    "dev": "webpack-dev-server --progress",
+    "build": "set NODE_ENV=production&&webpack --progress --colors --hide-modules",
     "pc_dll": "set PLATFORM=pc&&webpack --progress --colors --config ./webpack-dll.config.js",
     "pc_watch": "set PLATFORM=pc&&webpack --progress --watch",
     "pc_dev": "set PLATFORM=pc&&webpack-dev-server --progress"
