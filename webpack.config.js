@@ -75,8 +75,8 @@ module.exports = {
             errors: true
         },
         //设置域名，默认是localhost
-        // host: "10.74.138.249",
-        // port: 3000
+        host: "localhost",
+        port: 8080
     },
     module: {
         rules: [{
@@ -135,14 +135,14 @@ module.exports = {
     plugins: [
         new HashedChunkIdsPlugin(),
         new webpack.HashedModuleIdsPlugin(),
-        new webpack.DllReferencePlugin({
-            // 指定一个路径作为上下文环境，需要与DllPlugin的context参数保持一致，建议统一设置为项目根目录
-            context: __dirname,
-            // 指定manifest.json
-            manifest: require('./' + dll_manifest_name + '.json'),
-            // 当前Dll的所有内容都会存放在这个参数指定变量名的一个全局变量下，注意与DllPlugin的name参数保持一致
-            name: 'dll_library',
-        }),
+        // new webpack.DllReferencePlugin({
+        //     // 指定一个路径作为上下文环境，需要与DllPlugin的context参数保持一致，建议统一设置为项目根目录
+        //     context: __dirname,
+        //     // 指定manifest.json
+        //     manifest: require('./' + dll_manifest_name + '.json'),
+        //     // 当前Dll的所有内容都会存放在这个参数指定变量名的一个全局变量下，注意与DllPlugin的name参数保持一致
+        //     name: 'dll_library',
+        // }),
 
 
         new ExtractTextPlugin('css/[name].css?v=[contenthash:8]'),
