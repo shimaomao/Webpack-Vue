@@ -17,7 +17,7 @@ new Vue({
 
     },
     mounted: function() {
-        console.log($);
+        //console.log($);
         console.log(axios);
     },
     methods: {
