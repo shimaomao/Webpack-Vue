@@ -1,5 +1,5 @@
-require('../../css/demo/test.less');
-
+// require();
+import '../../css/demo/test.less';
 
 import Vue from 'vue';
 import axios from 'axios';
@@ -17,10 +17,10 @@ new Vue({
 
     },
     mounted: function() {
-        //console.log($);
+        console.log($);
         console.log(axios);
     },
     methods: {
 
     }
-})
+});

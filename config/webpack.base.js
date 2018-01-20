@@ -3,7 +3,7 @@ const path = require("path");
 const glob = require('glob');
 const webpack = require('webpack');
 //html模板插件 详见https://www.npmjs.com/package/html-webpack-plugin
-const htmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 //代码分离插件 详见https://www.npmjs.com/package/extract-text-webpack-plugin
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 //https://www.npmjs.com/package/clean-webpack-plugin
@@ -17,10 +17,10 @@ const HashedChunkIdsPlugin = require('./config/hashedChunkIdsPlugin.js');
 
 
 
-//是否是生产环境
-var prod = process.env.NODE_ENV === 'production' ? true : false;
 //是否是pc编译
 var platform = process.env.PLATFORM == 'pc' ? 'pc' : 'app';
+
+
 
 //webpack配置
 var eslintConfigDir = prod ? './config/.eslintrc.js' : './config/.eslintrc.dev.js';
@@ -58,28 +58,8 @@ module.exports = {
     entry: entries,
     output: {
         path: outputDir,
-        // publicPath: outputPublicDir,
+        publicPath: 'http://localhost:8080/',
         filename: 'js/[name].js?v=[hash:8]'
-    },
-    devServer: {
-        //设置服务器主文件夹，默认情况下，从项目的根目录提供文件
-        contentBase: path.resolve(__dirname, "dist/"+platform+"/"),
-        //自动开启默认浏览器
-        open: true,
-        //开启热模块替换,只重载页面中变化了的部分
-        hot:true,
-        //开启gzip压缩
-        compress: true,
-        //使用inlilne模式,会触发页面的动态重载
-        inline: true,
-        //当编译错误的时候，网页上显示错误信息
-        overlay: {
-            warnings: true,
-            errors: true
-        },
-        //设置域名，默认是localhost
-        host: "localhost",
-        port: 8080
     },
     module: {
         rules: [{
@@ -136,9 +116,8 @@ module.exports = {
         }]
     },
     plugins: [
-        //热模块替换插件
-        new webpack.NamedModulesPlugin(),
-        new webpack.HotModuleReplacementPlugin(),
+        new CleanWebpackPlugin(cleanDir),
+
 
         new HashedChunkIdsPlugin(),
         new webpack.HashedModuleIdsPlugin(),
@@ -234,7 +213,7 @@ function getEntry(globPath) {
 if (prod) {
     console.log('当前编译环境：production');
     module.exports.plugins = module.exports.plugins.concat([
-        new CleanWebpackPlugin(cleanDir),
+
         //压缩css代码
         new OptimizeCssAssetsPlugin({
             assetNameRegExp: /\.css\.*(?!.*map)/g, //注意不要写成 /\.css$/g
@@ -257,7 +236,4 @@ if (prod) {
             }
         })
     ]);
-} else {
-    console.log('当前编译环境：dev');
-    module.exports.devtool = '#cheap-module-eval-source-map';
 }

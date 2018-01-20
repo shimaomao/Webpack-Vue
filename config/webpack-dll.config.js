@@ -1,25 +1,25 @@
 const path = require('path');
 const webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const HashedChunkIdsPlugin = require('./config/hashedChunkIdsPlugin.js');
+const HashedChunkIdsPlugin = require('./hashedChunkIdsPlugin.js');
 
 //是否是pc编译
 const isPc = process.env.PLATFORM == 'pc' ? true : false;
 
 //webpack配置
-const resolveConfigDir = './config/resolve.config.js';
+const resolveConfigDir = './resolve.config.js';
 
 if (isPc) {
-    var baseEntryDir = './src/pc/';
+    var baseEntryDir = '../src/pc/';
     // var entryDir = baseEntryDir + '**/*.js';
-    var outputDir = path.resolve(__dirname, './src/pc/');
+    var outputDir = path.resolve(__dirname, '../src/pc/');
     //var outPublicDir = 'http://static.guojiang.tv/pc/v4/';
     var entries = ['vue', 'axios', 'jquery'];
     var dll_manifest_name = 'dll_manifest_pc';
 } else {
-    var baseEntryDir = './src/app/';
+    var baseEntryDir = '../src/app/';
     //var entryDir = baseEntryDir + '**/*.js';
-    var outputDir = path.resolve(__dirname, './src/app/');
+    var outputDir = path.resolve(__dirname, '../src/app/');
     //var outPublicDir = 'http://static.cblive.tv/dist/app/';
     var entries = ['vue', 'axios', 'flexible', 'webpack-zepto'];
     var dll_manifest_name = 'dll_manifest_app';
@@ -60,10 +60,12 @@ module.exports = {
     plugins: [
         new webpack.DefinePlugin({
             'process.env': {
-                NODE_ENV: '"production"'
+                NODE_ENV: JSON.stringify('production')
             }
         }),
-        new CleanWebpackPlugin([ outputDir +'/js/lib']),
+        new CleanWebpackPlugin([ outputDir +'/js/lib'],{
+            allowExternal: true
+        }),
         //压缩JS代码
         new webpack.optimize.UglifyJsPlugin({
             compress: {

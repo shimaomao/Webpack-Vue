@@ -10,50 +10,50 @@ exports.onWxShareSuccess = function(data) {
         shareSuccessCallback();
     } catch (e) {}
 
-}
+};
 exports.onWxShareCancel = function(data) {
     //console.log(data+'wx cancel');
     try {
         shareCancelCallback();
     } catch (e) {}
 
-}
+};
 exports.onAppShareSuccess = function(data) {
     //console.log(data+'app success');
     try {
         shareSuccessCallback();
     } catch (e) {}
-}
+};
 exports.onAppShareCancel = function(data) {
     //console.log(data+'app cancel');
     try {
         shareCancelCallback();
     } catch (e) {}
-}
+};
 exports.onQqShareSuccess = function(data) {
     //console.log(data+'qq success');
     try {
         shareSuccessCallback();
     } catch (e) {}
-}
+};
 exports.onQqShareCancel = function(data) {
     //console.log(data+'qq cancel');
     try {
         shareCancelCallback();
     } catch (e) {}
-}
+};
 exports.onQzoneShareSuccess = function(data) {
     //console.log(data+'Qzone success');
     try {
         shareSuccessCallback();
     } catch (e) {}
-}
+};
 exports.onQzoneShareCancel = function(data) {
     //console.log(data+'Qzone cancel');
     try {
         shareCancelCallback();
     } catch (e) {}
-}
+};
 
 
 //显示loading状态
@@ -64,10 +64,10 @@ exports.showLoading = function() {
     } else {
         $('body').append(load);
     }
-}
+};
 exports.hideLoading = function() {
     $('.alertLoding').hide();
-}
+};
 
 //跳到直播间
 //packageId: 默认果酱,  2 =>土豪
@@ -115,13 +115,13 @@ exports.goShare = function() {
 
             $('#mShareBg').on('click', function() {
                 $(this).hide();
-            })
+            });
         } else {
             $('#mShareBg').show();
         }
 
     }
-}
+};
 //跳到指定帖子
 exports.goPost = function(id) {
     if (/guojiang_android/i.test(navigator.userAgent)) {
@@ -131,7 +131,7 @@ exports.goPost = function(id) {
     } else {
         location.href = '/download';
     }
-}
+};
 
 //跳到饭圈详情
 exports.goGroup = function(id) {
@@ -142,7 +142,7 @@ exports.goGroup = function(id) {
     } else {
         location.href = '/download';
     }
-}
+};
 
 
 //获取平台类型
@@ -161,7 +161,7 @@ exports.getPlatformType = function() {
     } else {
         return 'pc';
     }
-}
+};
 
 //登录
 exports.goLogin = function() {
@@ -176,26 +176,26 @@ exports.goLogin = function() {
         location.href = '/user/login?callback=' + window.top.location.href;
     }
 
-}
+};
 //微信授权
 exports.goWechatLogin = function() {
     location.href = '/user/wxLogin?callback=' + location.href;
-}
+};
 
 //跳到个主主页
 exports.goPersonalPage = function(mid) {
     var version = getVersion();
-    versionNum = version.replace(/\./g, '')
+    versionNum = version.replace(/\./g, '');
 
     try {
         if (typeof mid == 'string') {
-            mid = parseInt(mid)
+            mid = parseInt(mid);
         }
         gBridge.toUserInfoViewId(mid);
     } catch (e) {
-        alert(e.name + ':' + e.message)
+        alert(e.name + ':' + e.message);
     }
-}
+};
 
 //控制ios右上角
 exports.showIosMenu = function() {
@@ -203,7 +203,7 @@ exports.showIosMenu = function() {
         gBridge.showMenuButton(true);
     } catch (e) {}
 
-}
+};
 
 exports.hideIosMenu = function() {
 
@@ -211,7 +211,7 @@ exports.hideIosMenu = function() {
         gBridge.showMenuButton(false);
     } catch (e) {}
 
-}
+};
 //关闭当前webview
 exports.closeWebview = function() {
     var platform = getPlatformType();
@@ -220,20 +220,20 @@ exports.closeWebview = function() {
         try {
             recharge.goBack();
         } catch (e) {
-            alert(e.name + ":" + e.message);
+            alert(e.name + ':' + e.message);
         }
 
     } else if (platform == 'ios_webview') {
         try {
             gBridge.closeWeb();
         } catch (e) {
-            alert(e.name + ":" + e.message);
+            alert(e.name + ':' + e.message);
         }
     } else {
-        alert('请移步到客户端')
+        alert('请移步到客户端');
     }
 
-}
+};
 //炸房关闭webview
 exports.closeActWebview = function(ele, cb) {
     var _ele = document.querySelector(ele);
@@ -249,7 +249,7 @@ exports.closeActWebview = function(ele, cb) {
     //没有元素&关闭webwiew
     if (typeof cb === 'function') cb();
     closeWebview();
-}
+};
 //获取app version
 exports.getVersion = function() {
     var version;
@@ -259,7 +259,7 @@ exports.getVersion = function() {
         version = '0';
     }
     return version;
-}
+};
 
 
 /*刷新泡泡数:
@@ -281,7 +281,7 @@ exports.refreshCoin = function(addCoin, isAddCoin) {
         } catch (err) {;
         }
     }
-}
+};
 
 //刷新背包
 exports.refreshBackpack = function() {
@@ -297,7 +297,7 @@ exports.refreshBackpack = function() {
         } catch (err) {;
         }
     }
-}
+};
 
 //时间戳转日期
 exports.formatDate = function(num, isSecond) {
@@ -310,11 +310,11 @@ exports.formatDate = function(num, isSecond) {
         m = parseInt(formatNum.getMinutes()) < 10 ? 0 + formatNum.getMinutes().toString() : formatNum.getMinutes(),
         i = parseInt(formatNum.getSeconds()) < 10 ? 0 + formatNum.getSeconds().toString() : formatNum.getSeconds();
     if (isSecond) {
-        return y + "-" + month + "-" + d + "   " + h + ":" + m + ":" + i;
+        return y + '-' + month + '-' + d + '   ' + h + ':' + m + ':' + i;
     } else {
-        return y + "-" + month + "-" + d + "   " + h + ":" + m;
+        return y + '-' + month + '-' + d + '   ' + h + ':' + m;
     }
-}
+};
 
 //判断活动是否开始，结束。 日期格式：2016/1/5 00:00:00
 exports.isActivitying = function(startdate, enddate) {
@@ -328,7 +328,7 @@ exports.isActivitying = function(startdate, enddate) {
     } else {
         return 2; //活动结束
     }
-}
+};
 /*
  *   timegap: 1 为 每1ms倒计时，1000为1s，默认1s
  */
@@ -346,10 +346,10 @@ exports.countDownS = function(time, dosomething, callback, timegap) {
     } else {
         _time--;
         dosomething(_time);
-        cds = setTimeout(function() { countDownS(_time, dosomething, callback, timegap) }, timegap);
+        cds = setTimeout(function() { countDownS(_time, dosomething, callback, timegap); }, timegap);
     }
 
-}
+};
 
 //验证信息
 exports.regExpTest = function(content, type) {
@@ -400,4 +400,4 @@ exports.regExpTest = function(content, type) {
         };
 
     return { errno: regExpMap[type].test(content), msg: regExpErrMap[type] };
-}
+};

@@ -21,7 +21,8 @@ module.exports = {
             "single"
         ],
         "semi": [
-            2, "always"
+            "error",
+            "always"
         ]
     }
 };
