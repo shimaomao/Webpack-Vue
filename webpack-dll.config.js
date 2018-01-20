@@ -36,7 +36,7 @@ module.exports = {
         path: outputDir,
         //publicPath: outPublicDir,
         filename: 'js/lib/[name].js?v=[chunkhash:8]',
-        //library: '[name]_library',
+        library: '[name]_library',
         /*libraryTarget: 'umd'*/
     },
     module: {
@@ -76,15 +76,15 @@ module.exports = {
         }),
 
         //keep module.id stable when vender modules does not change
-        // new HashedChunkIdsPlugin(),
-        // new webpack.HashedModuleIdsPlugin(),
-        // new webpack.DllPlugin({
-        //     // 本Dll文件中各模块的索引，供DllReferencePlugin读取使用
-        //     path: dll_manifest_name + '.json',
-        //     //当前Dll的所有内容都会存放在这个参数指定变量名的一个全局变量下，注意与参数output.library保持一致
-        //     name: '[name]_library',
-        //     // 指定一个路径作为上下文环境，需要与DllReferencePlugin的context参数保持一致，建议统一设置为项目根目录
-        //     context: __dirname,
-        // })
+        new HashedChunkIdsPlugin(),
+        new webpack.HashedModuleIdsPlugin(),
+        new webpack.DllPlugin({
+            // 本Dll文件中各模块的索引，供DllReferencePlugin读取使用
+            path: dll_manifest_name + '.json',
+            //当前Dll的所有内容都会存放在这个参数指定变量名的一个全局变量下，注意与参数output.library保持一致
+            name: '[name]_library',
+            // 指定一个路径作为上下文环境，需要与DllReferencePlugin的context参数保持一致，建议统一设置为项目根目录
+            context: __dirname,
+        })
     ]
 };

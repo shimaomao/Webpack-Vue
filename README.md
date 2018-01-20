@@ -7,4 +7,8 @@
 
 vue在dll中是生产环境不方便调试
 
-webpack-dev-server只能读取内存中的内容
+
+webpack-dev-server生成的包并没有放在你的真实目录中,而是放在了内存中.
+
+
+

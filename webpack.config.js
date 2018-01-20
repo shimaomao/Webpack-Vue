@@ -59,17 +59,20 @@ module.exports = {
     output: {
         path: outputDir,
         // publicPath: outputPublicDir,
-        filename: 'js/[name].js?v=[chunkhash:8]'
+        filename: 'js/[name].js?v=[hash:8]'
     },
     devServer: {
         //设置服务器主文件夹，默认情况下，从项目的根目录提供文件
         contentBase: path.resolve(__dirname, "dist/"+platform+"/"),
+        //自动开启默认浏览器
         open: true,
+        //开启热模块替换,只重载页面中变化了的部分
+        hot:true,
         //开启gzip压缩
         compress: true,
-        //使用inlilne模式
+        //使用inlilne模式,会触发页面的动态重载
         inline: true,
-        // //当编译错误的时候，网页上显示错误信息
+        //当编译错误的时候，网页上显示错误信息
         overlay: {
             warnings: true,
             errors: true
@@ -133,16 +136,20 @@ module.exports = {
         }]
     },
     plugins: [
+        //热模块替换插件
+        new webpack.NamedModulesPlugin(),
+        new webpack.HotModuleReplacementPlugin(),
+
         new HashedChunkIdsPlugin(),
         new webpack.HashedModuleIdsPlugin(),
-        // new webpack.DllReferencePlugin({
-        //     // 指定一个路径作为上下文环境，需要与DllPlugin的context参数保持一致，建议统一设置为项目根目录
-        //     context: __dirname,
-        //     // 指定manifest.json
-        //     manifest: require('./' + dll_manifest_name + '.json'),
-        //     // 当前Dll的所有内容都会存放在这个参数指定变量名的一个全局变量下，注意与DllPlugin的name参数保持一致
-        //     name: 'dll_library',
-        // }),
+        new webpack.DllReferencePlugin({
+            // 指定一个路径作为上下文环境，需要与DllPlugin的context参数保持一致，建议统一设置为项目根目录
+            context: __dirname,
+            // 指定manifest.json
+            manifest: require('./' + dll_manifest_name + '.json'),
+            // 当前Dll的所有内容都会存放在这个参数指定变量名的一个全局变量下，注意与DllPlugin的name参数保持一致
+            name: 'dll_library',
+        }),
 
 
         new ExtractTextPlugin('css/[name].css?v=[contenthash:8]'),
@@ -156,7 +163,6 @@ module.exports = {
         // 提取公共模块
         new webpack.optimize.CommonsChunkPlugin({
             names: ['vendors', 'manifest'], // 公共模块的名称
-            //filename: 'js/vendors-[hash:6].js', // 公共模块的名称
             chunks: 'vendors', // chunks是需要提取的模块
             minChunks: Infinity //公共模块最小被引用的次数
         }),

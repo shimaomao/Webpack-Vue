@@ -6,8 +6,7 @@
   "scripts": {
     "dll": "webpack --progress --colors --config ./webpack-dll.config.js",
     "dev": "webpack-dev-server",
-    "watch": "webpack --progress --watch",
-    "build": "set NODE_ENV=production&&webpack --progress --colors --hide-modules",
+    "build": "NODE_ENV=production webpack --progress --colors --hide-modules",
     "pc_dll": "set PLATFORM=pc&&webpack --progress --colors --config ./webpack-dll.config.js",
     "pc_watch": "set PLATFORM=pc&&webpack --progress --watch",
     "pc_dev": "set PLATFORM=pc&&webpack-dev-server --progress"
