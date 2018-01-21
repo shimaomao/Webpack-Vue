@@ -23,7 +23,6 @@ console.log('现在是' + platform + '编译:');
 console.log('当前编译环境：production');
 
 //webpack配置
-var eslintConfigDir = './.eslintrc.js';
 var postcssConfigDir = './postcss.config.js';
 var resolveConfigDir = './resolve.config.js';
 
@@ -51,7 +50,7 @@ module.exports = {
     output: {
         path: outputDir,
         publicPath: 'http://localhost:8080/',
-        filename: 'js/[name].js?v=[hash:8]'
+        filename: 'js/[name].js?v=[chunkhash:8]'
     },
     module: {
         rules: [{
@@ -63,24 +62,12 @@ module.exports = {
             }, {
                 test: /\.ejs$/,
                 loader: 'ejs-loader'
-            },
-            {
-                test: /\.js$/,
-                enforce: 'pre',
-                loader: 'eslint-loader',
-                include: path.resolve(__dirname, entryDir),
-                exclude: [entryDir + '/js/lib', entryDir + '/js/component'],
-                options: {
-                    fix: true
-                }
-            },
-            {
+            },{
                 test: /\.js$/,
                 loader: 'babel-loader',
                 options: {
                     presets: ['env']
-                },
-                exclude: ['node_modules', entryDir + '/js/lib', entryDir + '/js/component']
+                }
             }, {
                 test: /\.css$/,
                 use: ['style-loader', 'css-loader', 'postcss-loader'],
@@ -147,7 +134,6 @@ module.exports = {
             compress: {
                 warnings: false
             },
-            //sourceMap: true,
             output: {
                 comments: false, // 去掉注释内容
             }
@@ -155,7 +141,6 @@ module.exports = {
         new ExtractTextPlugin('css/[name].css?v=[contenthash:8]'),
         new webpack.LoaderOptionsPlugin({
             options: {
-                //eslint: require(eslintConfigDir),
                 postcss: require(postcssConfigDir)
             },
         }),

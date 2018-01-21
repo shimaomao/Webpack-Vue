@@ -3,9 +3,9 @@
 
 
 #### 遗留问题
-是否需要eslint-loader
 
-vue在dll中是生产环境不方便调试  1
+Sublime​Linter-contrib-eslint_d
+
 
 在生产环境中建立静态服务器测试
 

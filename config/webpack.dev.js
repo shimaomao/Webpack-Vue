@@ -2,9 +2,9 @@ const path = require("path");
 //路径模式匹配模块glob
 const glob = require('glob');
 const webpack = require('webpack');
-//html模板插件 详见https://www.npmjs.com/package/html-webpack-plugin
+//https://www.npmjs.com/package/html-webpack-plugin
 const htmlWebpackPlugin = require('html-webpack-plugin');
-//代码分离插件 详见https://www.npmjs.com/package/extract-text-webpack-plugin
+//https://www.npmjs.com/package/extract-text-webpack-plugin
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 //https://www.npmjs.com/package/clean-webpack-plugin
 const CleanWebpackPlugin = require('clean-webpack-plugin');
@@ -20,7 +20,7 @@ console.log('现在是' + platform + '编译:');
 console.log('当前编译环境：dev');
 
 //webpack配置
-var eslintConfigDir = './.eslintrc.dev.js';
+var eslintConfigDir = '../.eslintrc.js';
 var postcssConfigDir = './postcss.config.js';
 var resolveConfigDir = './resolve.config.js';
 
@@ -31,7 +31,7 @@ var resolveConfigDir = './resolve.config.js';
 var entryDir = path.resolve(__dirname, '../src/' + platform);
 var outputDir = path.resolve(__dirname, '../dist/' + platform);
 
-var dll_manifest_name = 'dll_manifest_' + platform;
+//var dll_manifest_name = 'dll_manifest_' + platform;
 
 //入口js文件配置以及公共模块配置
 var entries = getEntry(entryDir + '/js/**/*.js');
@@ -53,7 +53,7 @@ module.exports = {
         //设置服务器主文件夹，默认情况下，从项目的根目录提供文件
         contentBase: outputDir,
         //自动开启默认浏览器
-        open: true,
+        //open: true,
         //开启热模块替换,只重载页面中变化了的部分
         //hot: true,
         //开启gzip压缩
@@ -66,7 +66,7 @@ module.exports = {
             errors: true
         },
         //浏览器自动打开的文件夹
-        openPage: 'html/',
+        //openPage: 'html/',
         //只在shell中展示错误信息
         stats: "errors-only",
         //设置域名，默认是localhost
@@ -83,28 +83,23 @@ module.exports = {
             }, {
                 test: /\.ejs$/,
                 loader: 'ejs-loader'
-            },
-            {
+            },{
                 test: /\.js$/,
                 enforce: 'pre',
                 loader: 'eslint-loader',
-                include: path.resolve(__dirname, entryDir),
-                exclude: [ entryDir + '/js/lib', entryDir + '/js/component'],
+                exclude: [ entryDir + '/js/common'],
                 options: {
-                    fix: true
+                    fix: true //自动修复不符合规则的代码
                 }
-            },
-            {
+            },{
                 test: /\.js$/,
                 loader: 'babel-loader',
                 options: {
                     presets: ['env']
-                },
-                exclude: ['node_modules', entryDir + '/js/lib', entryDir + '/js/component']
+                }
             }, {
                 test: /\.css$/,
                 use: ['style-loader', 'css-loader', 'postcss-loader'],
-                exclude: [entryDir + '/css/lib']
             }, {
                 test: /\.less$/,
                 use: ExtractTextPlugin.extract(['css-loader', 'postcss-loader', 'less-loader']),
@@ -136,13 +131,14 @@ module.exports = {
                 NODE_ENV: JSON.stringify('development')
             }
         }),
-        //输出是哪个模块的更新
-        new webpack.NamedModulesPlugin(),
+
         //热模块替换插件
         new webpack.HotModuleReplacementPlugin(),
 
         new HashedChunkIdsPlugin(),
+
         new webpack.HashedModuleIdsPlugin(),
+
         // new webpack.DllReferencePlugin({
         //     // 指定一个路径作为上下文环境，需要与DllPlugin的context参数保持一致，建议统一设置为项目根目录
         //     context: __dirname,
@@ -152,8 +148,10 @@ module.exports = {
         //     name: 'dll_library',
         // }),
 
-
+        //抽离css
         new ExtractTextPlugin('css/[name].css?v=[contenthash:8]'),
+
+        //载入配置
         new webpack.LoaderOptionsPlugin({
             options: {
                 eslint: require(eslintConfigDir),
@@ -167,6 +165,7 @@ module.exports = {
             chunks: 'vendors', // chunks是需要提取的模块
             minChunks: Infinity //公共模块最小被引用的次数
         }),
+        //移动库文件
         new CopyWebpackPlugin([
             { from: entryDir + '/js/lib', to: 'js/lib' },
         ])

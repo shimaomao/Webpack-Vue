@@ -244,7 +244,7 @@ exports.closeActWebview = function(ele, cb) {
             hasEle = true;
             break;
         }
-    };
+    }
     if (hasEle) return;
     //没有元素&关闭webwiew
     if (typeof cb === 'function') cb();
@@ -273,12 +273,12 @@ exports.refreshCoin = function(addCoin, isAddCoin) {
     if (platform == 'android_webview') {
         try {
             recharge.refreshCoin(flag + addCoin);
-        } catch (err) {;
+        } catch (err) {
         }
     } else if (platform == 'ios_webview') {
         try {
             gBridge.refreshCoin(flag + addCoin);
-        } catch (err) {;
+        } catch (err) {
         }
     }
 };
@@ -289,12 +289,12 @@ exports.refreshBackpack = function() {
     if (platform == 'android_webview') {
         try {
             recharge.refreshPackage();
-        } catch (err) {;
+        } catch (err) {
         }
     } else if (platform == 'ios_webview') {
         try {
             gBridge.refreshPackage();
-        } catch (err) {;
+        } catch (err) {
         }
     }
 };

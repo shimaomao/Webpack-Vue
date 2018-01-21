@@ -1,4 +1,3 @@
-// require();
 import '../../css/demo/test.less';
 
 import Vue from 'vue';

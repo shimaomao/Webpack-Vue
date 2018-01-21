@@ -11,10 +11,11 @@ module.exports = {
     "rules": {
         "indent": [
             "error",
-            "space"
+            4
         ],
         "linebreak-style": [
-            "off"
+            "error",
+            "unix"
         ],
         "quotes": [
             "error",
@@ -23,6 +24,9 @@ module.exports = {
         "semi": [
             "error",
             "always"
+        ],
+        "no-console": [
+            "off"
         ]
     }
 };

@@ -44,8 +44,6 @@ module.exports = {
                 test: /\.js$/,
                 enforce: 'pre',
                 loader: 'eslint-loader',
-                //include: path.resolve(__dirname, entryDir),
-                //exclude: [baseEntryDir + 'js/lib', baseEntryDir + 'js/component'],
                 options: {
                     fix: true
                 }
@@ -53,7 +51,6 @@ module.exports = {
             {
                 test: /\.js$/,
                 loader: 'babel-loader',
-                // exclude: ['node_modules', baseEntryDir + 'js/lib', baseEntryDir + 'js/component']
             }
         ]
     },
@@ -80,6 +77,7 @@ module.exports = {
         //keep module.id stable when vender modules does not change
         new HashedChunkIdsPlugin(),
         new webpack.HashedModuleIdsPlugin(),
+
         new webpack.DllPlugin({
             // 本Dll文件中各模块的索引，供DllReferencePlugin读取使用
             path: dll_manifest_name + '.json',
