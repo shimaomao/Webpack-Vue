@@ -43,13 +43,6 @@ entries.vendors = ['common'];
 
 console.log(entries);
 
-//建立express服务器
-var express = require('express');
-var app = express();
-//指定静态文件的位置
-app.use('/', express.static(__dirname + '/dist/'+ platform));
-//监听端口号
-app.listen(8080,'www.jesse.com');
 
 module.exports = {
     /* 输入文件 */
