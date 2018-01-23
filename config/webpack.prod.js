@@ -1,11 +1,11 @@
-const path = require("path");
+const path = require('path');
 //路径模式匹配模块glob
 const glob = require('glob');
 const webpack = require('webpack');
 //html模板插件 详见https://www.npmjs.com/package/html-webpack-plugin
 const htmlWebpackPlugin = require('html-webpack-plugin');
 //代码分离插件 详见https://www.npmjs.com/package/extract-text-webpack-plugin
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 //https://www.npmjs.com/package/clean-webpack-plugin
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 //https://www.npmjs.com/package/optimize-css-assets-webpack-plugin
@@ -55,48 +55,47 @@ module.exports = {
     },
     module: {
         rules: [{
-                test: /\.vue$/,
-                loader: 'vue-loader',
-                options: {
-                    postcss: [require(postcssConfigDir)]
-                }
-            }, {
-                test: /\.ejs$/,
-                loader: 'ejs-loader'
-            },{
-                test: /\.js$/,
-                loader: 'babel-loader',
-                options: {
-                    presets: ['env']
-                }
-            }, {
-                test: /\.css$/,
-                use: ['style-loader', 'css-loader', 'postcss-loader'],
-                exclude: [entryDir + '/css/lib']
-            }, {
-                test: /\.less$/,
-                use: ExtractTextPlugin.extract(['css-loader', 'postcss-loader', 'less-loader']),
-            }, {
-                test: /\.(png|jpg|gif)$/,
-                loader: 'url-loader',
-                options: {
-                    limit: 5120,
-                    name: function(p) {
-                        let tem_path = p.split(/\\img\\/)[1];
-                        tem_path = tem_path.replace(/\\/g, '/');
-                        return 'img/' + tem_path + '?v=[hash:8]';
-                    }
-                }
-            }, {
-                test: /\.html$/,
-                use: [{
-                    loader: 'html-loader',
-                    options: {
-                        minimize: true
-                    }
-                }],
+            test: /\.vue$/,
+            loader: 'vue-loader',
+            options: {
+                postcss: [require(postcssConfigDir)]
             }
-        ]
+        }, {
+            test: /\.ejs$/,
+            loader: 'ejs-loader'
+        }, {
+            test: /\.js$/,
+            loader: 'babel-loader',
+            options: {
+                presets: ['env']
+            }
+        }, {
+            test: /\.css$/,
+            use: ['style-loader', 'css-loader', 'postcss-loader'],
+            exclude: [entryDir + '/css/lib']
+        }, {
+            test: /\.less$/,
+            use: ExtractTextPlugin.extract(['css-loader', 'postcss-loader', 'less-loader']),
+        }, {
+            test: /\.(png|jpg|gif)$/,
+            loader: 'url-loader',
+            options: {
+                limit: 5120,
+                name: function(p) {
+                    let tem_path = p.split(/\\img\\/)[1];
+                    tem_path = tem_path.replace(/\\/g, '/');
+                    return 'img/' + tem_path + '?v=[hash:8]';
+                }
+            }
+        }, {
+            test: /\.html$/,
+            use: [{
+                loader: 'html-loader',
+                options: {
+                    minimize: true
+                }
+            }],
+        }]
     },
     plugins: [
         new webpack.DefinePlugin({

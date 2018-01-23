@@ -1,11 +1,11 @@
-const path = require("path");
+const path = require('path');
 //路径模式匹配模块glob
 const glob = require('glob');
 const webpack = require('webpack');
 //https://www.npmjs.com/package/html-webpack-plugin
 const htmlWebpackPlugin = require('html-webpack-plugin');
 //https://www.npmjs.com/package/extract-text-webpack-plugin
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 //https://www.npmjs.com/package/clean-webpack-plugin
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 //https://www.npmjs.com/package/copy-webpack-plugin
@@ -68,68 +68,71 @@ module.exports = {
         //浏览器自动打开的文件夹
         //openPage: 'html/',
         //只在shell中展示错误信息
-        stats: "errors-only",
+        stats: 'errors-only',
         //设置域名，默认是localhost
-        host: "localhost",
+        host: 'localhost',
         port: 8080
     },
     module: {
         rules: [{
-                test: /\.vue$/,
-                loader: 'vue-loader',
-                options: {
-                    postcss: [require(postcssConfigDir)]
-                }
-            }, {
-                test: /\.ejs$/,
-                loader: 'ejs-loader'
-            },{
-                test: /\.js$/,
-                enforce: 'pre',
-                loader: 'eslint-loader',
-                exclude: [ entryDir + '/js/common'],
-                options: {
-                    fix: true //自动修复不符合规则的代码
-                }
-            },{
-                test: /\.js$/,
-                loader: 'babel-loader',
-                options: {
-                    presets: ['env']
-                }
-            }, {
-                test: /\.css$/,
-                use: ['style-loader', 'css-loader', 'postcss-loader'],
-            }, {
-                test: /\.less$/,
-                use: ExtractTextPlugin.extract(['css-loader', 'postcss-loader', 'less-loader']),
-            }, {
-                test: /\.(png|jpg|gif)$/,
-                loader: 'url-loader',
-                options: {
-                    limit: 5120,
-                    name: function(p) {
-                        let tem_path = p.split(/\\img\\/)[1];
-                        tem_path = tem_path.replace(/\\/g, '/');
-                        return 'img/' + tem_path + '?v=[hash:8]';
-                    }
-                }
-            }, {
-                test: /\.html$/,
-                use: [{
-                    loader: 'html-loader',
-                    options: {
-                        minimize: true
-                    }
-                }],
+            test: /\.vue$/,
+            loader: 'vue-loader',
+            options: {
+                postcss: [require(postcssConfigDir)]
             }
-        ]
+        }, {
+            test: /\.ejs$/,
+            loader: 'ejs-loader'
+        }, {
+            test: /\.js$/,
+            enforce: 'pre',
+            loader: 'eslint-loader',
+            include:[entryDir + '/js/demo/'],
+            // exclude: [entryDir + '/js/common/', entryDir + '/js/components/'],
+            options: {
+                fix: true //自动修复不符合规则的代码
+            }
+        }, {
+            test: /\.js$/,
+            loader: 'babel-loader',
+            options: {
+                presets: ['env']
+            }
+        }, {
+            test: /\.css$/,
+            use: ['style-loader', 'css-loader', 'postcss-loader'],
+        }, {
+            test: /\.less$/,
+            use: ExtractTextPlugin.extract(['css-loader', 'postcss-loader', 'less-loader']),
+        }, {
+            test: /\.(png|jpg|gif)$/,
+            loader: 'url-loader',
+            options: {
+                limit: 5120,
+                name: function(p) {
+                    let tem_path = p.split(/\\img\\/)[1];
+                    tem_path = tem_path.replace(/\\/g, '/');
+                    return 'img/' + tem_path + '?v=[hash:8]';
+                }
+            }
+        }, {
+            test: /\.html$/,
+            use: [{
+                loader: 'html-loader',
+                options: {
+                    minimize: true
+                }
+            }],
+        }]
     },
     plugins: [
         new webpack.DefinePlugin({
             'process.env': {
                 NODE_ENV: JSON.stringify('development')
             }
+        }),
+        new CleanWebpackPlugin(outputDir, {
+            allowExternal: true
         }),
 
         //热模块替换插件
@@ -214,7 +217,7 @@ function getEntry(globPath) {
             let isJsFile = entry.indexOf('.js') !== -1;
             let dirArr = isJsFile ?
                 entry.split('/js/')[1].split('.js')[0] :
-                entry.split(entryDir + '/html/')[1].split('.ejs')[0];
+                entry.split('/html/')[1].split('.ejs')[0];
 
             // basename = dirArr.join('/');
 

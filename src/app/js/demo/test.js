@@ -3,6 +3,7 @@ import '../../css/demo/test.less';
 import Vue from 'vue';
 import axios from 'axios';
 import $ from 'webpack-zepto';
+//import eruda from '../components/eruda.min.js';
 
 new Vue({
     el: '#app',
@@ -16,6 +17,7 @@ new Vue({
 
     },
     mounted: function() {
+        //eruda.init();
         console.log($);
         console.log(axios);
     },
