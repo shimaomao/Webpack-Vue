@@ -48,14 +48,14 @@ module.exports = {
         publicPath: 'http://localhost:8080/',
         filename: 'js/[name].js?v=[hash:8]'
     },
-    devtool: 'cheap-module-eval-source-map', //#inline-source-map
+    devtool: 'inline-source-map', //cheap-module-eval-source-map
     devServer: {
         //设置服务器主文件夹，默认情况下，从项目的根目录提供文件
         contentBase: outputDir,
         //自动开启默认浏览器
         //open: true,
         //开启热模块替换,只重载页面中变化了的部分
-        //hot: true,
+        hot: true,
         //开启gzip压缩
         compress: true,
         //使用inlilne模式,会触发页面的动态重载
@@ -87,8 +87,8 @@ module.exports = {
             test: /\.js$/,
             enforce: 'pre',
             loader: 'eslint-loader',
-            include:[entryDir + '/js/demo/'],
-            // exclude: [entryDir + '/js/common/', entryDir + '/js/components/'],
+            //include:[entryDir + '/js/demo/'],
+            //exclude: [entryDir + '/js/components/'],
             options: {
                 fix: true //自动修复不符合规则的代码
             }
