@@ -1,58 +1,34 @@
 import '../../css/common/common.less';
 import $ from 'webpack-zepto';
-import flexible from 'flexible';
+import 'flexible';
 
 
 //微信分享结果回调
-exports.onWxShareSuccess = function(data) {
-    //console.log(data+'wx success');
-    try {
-        shareSuccessCallback();
-    } catch (e) {}
+exports.onWxShareSuccess = function() {
+    shareSuccessCallback();
 
 };
-exports.onWxShareCancel = function(data) {
-    //console.log(data+'wx cancel');
-    try {
-        shareCancelCallback();
-    } catch (e) {}
+exports.onWxShareCancel = function() {
+    shareCancelCallback();
 
 };
-exports.onAppShareSuccess = function(data) {
-    //console.log(data+'app success');
-    try {
-        shareSuccessCallback();
-    } catch (e) {}
+exports.onAppShareSuccess = function() {
+    shareSuccessCallback();
 };
-exports.onAppShareCancel = function(data) {
-    //console.log(data+'app cancel');
-    try {
-        shareCancelCallback();
-    } catch (e) {}
+exports.onAppShareCancel = function() {
+    shareCancelCallback();
 };
-exports.onQqShareSuccess = function(data) {
-    //console.log(data+'qq success');
-    try {
-        shareSuccessCallback();
-    } catch (e) {}
+exports.onQqShareSuccess = function() {
+    shareSuccessCallback();
 };
-exports.onQqShareCancel = function(data) {
-    //console.log(data+'qq cancel');
-    try {
-        shareCancelCallback();
-    } catch (e) {}
+exports.onQqShareCancel = function() {
+    shareCancelCallback();
 };
-exports.onQzoneShareSuccess = function(data) {
-    //console.log(data+'Qzone success');
-    try {
-        shareSuccessCallback();
-    } catch (e) {}
+exports.onQzoneShareSuccess = function() {
+    shareSuccessCallback();
 };
-exports.onQzoneShareCancel = function(data) {
-    //console.log(data+'Qzone cancel');
-    try {
-        shareCancelCallback();
-    } catch (e) {}
+exports.onQzoneShareCancel = function() {
+    shareCancelCallback();
 };
 
 
@@ -69,26 +45,6 @@ exports.hideLoading = function() {
     $('.alertLoding').hide();
 };
 
-//跳到直播间
-//packageId: 默认果酱,  2 =>土豪
-// exports.goRoom = function(rid, price, packageId) {
-//     if (/guojiang_android/i.test(navigator.userAgent)) {
-//         layer.open({
-//             content: '快去app直播列表页围观主播的精彩表演吧'
-//         });
-
-//         try {
-//             recharge.roomDetail(rid.toString()); //进入直播间
-//         } catch (e) {}
-
-//     } else if (/guojiang_iphone/i.test(navigator.userAgent)) {
-//         try {
-//             gBridge.roomDetail(rid, price); //进入直播间
-//         } catch (e) {}
-//     } else {
-//         location.href = '/room/' + rid + '?packageId=' + packageId;
-//     }
-// }
 
 //调起分享
 exports.goShare = function() {
@@ -199,18 +155,11 @@ exports.goPersonalPage = function(mid) {
 
 //控制ios右上角
 exports.showIosMenu = function() {
-    try {
-        gBridge.showMenuButton(true);
-    } catch (e) {}
-
+    gBridge.showMenuButton(true);
 };
 
 exports.hideIosMenu = function() {
-
-    try {
-        gBridge.showMenuButton(false);
-    } catch (e) {}
-
+    gBridge.showMenuButton(false);
 };
 //关闭当前webview
 exports.closeWebview = function() {
@@ -271,15 +220,9 @@ exports.refreshCoin = function(addCoin, isAddCoin) {
         flag = (isAddCoin || isAddCoin == null) ? '-' : '+';
 
     if (platform == 'android_webview') {
-        try {
-            recharge.refreshCoin(flag + addCoin);
-        } catch (err) {
-        }
+        recharge.refreshCoin(flag + addCoin);
     } else if (platform == 'ios_webview') {
-        try {
-            gBridge.refreshCoin(flag + addCoin);
-        } catch (err) {
-        }
+        gBridge.refreshCoin(flag + addCoin);
     }
 };
 
@@ -287,15 +230,9 @@ exports.refreshCoin = function(addCoin, isAddCoin) {
 exports.refreshBackpack = function() {
     var platform = getPlatformType();
     if (platform == 'android_webview') {
-        try {
-            recharge.refreshPackage();
-        } catch (err) {
-        }
+        recharge.refreshPackage();
     } else if (platform == 'ios_webview') {
-        try {
-            gBridge.refreshPackage();
-        } catch (err) {
-        }
+        gBridge.refreshPackage();
     }
 };
 

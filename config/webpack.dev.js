@@ -88,7 +88,7 @@ module.exports = {
             enforce: 'pre',
             loader: 'eslint-loader',
             //include:[entryDir + '/js/demo/'],
-            //exclude: [entryDir + '/js/components/'],
+            //exclude: [entryDir + '/js/common/'],
             options: {
                 fix: true //自动修复不符合规则的代码
             }
