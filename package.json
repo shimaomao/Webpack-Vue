@@ -5,7 +5,7 @@
   "main": "webpack.config.js",
   "scripts": {
     "dll": "webpack --progress --colors --config config/webpack-dll.config.js",
-    "dev": "webpack-dev-server --config config/webpack.dev.js",
+    "dev": "webpack-dev-server --progress --config config/webpack.dev.js",
     "build": "webpack --progress --colors --hide-modules --config config/webpack.prod.js",
     "server": "node config/server.js",
     "pc_dll": "set PLATFORM=pc&&webpack --progress --colors --config config/webpack-dll.config.js",
@@ -47,8 +47,17 @@
     "style-loader": "^0.19.1",
     "url-loader": "^0.6.2",
     "vue-loader": "^13.7.0",
+    "vue-template-compiler": "^2.5.13",
     "webpack": "^3.10.0",
     "webpack-dev-server": "2.9.7",
     "webpack-merge": "^4.1.1"
-  }
+  },
+  "browserslist": [
+    "iOS >= 8",
+    "Android >= 4.3",
+    "Firefox >= 20",
+    "> 0.2%",
+    "last 3 versions",
+    "ie 9"
+  ]
 }

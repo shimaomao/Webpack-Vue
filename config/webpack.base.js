@@ -1,56 +1,39 @@
-const path = require("path");
+const path = require('path');
 //路径模式匹配模块glob
 const glob = require('glob');
 const webpack = require('webpack');
-//html模板插件 详见https://www.npmjs.com/package/html-webpack-plugin
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-//代码分离插件 详见https://www.npmjs.com/package/extract-text-webpack-plugin
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+//https://www.npmjs.com/package/html-webpack-plugin
+const htmlWebpackPlugin = require('html-webpack-plugin');
 //https://www.npmjs.com/package/clean-webpack-plugin
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-//https://www.npmjs.com/package/optimize-css-assets-webpack-plugin
-const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 //https://www.npmjs.com/package/copy-webpack-plugin
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
-const HashedChunkIdsPlugin = require('./config/hashedChunkIdsPlugin.js');
-
+//const HashedChunkIdsPlugin = require('./hashedChunkIdsPlugin.js');
 
 
 //是否是pc编译
 var platform = process.env.PLATFORM == 'pc' ? 'pc' : 'app';
 
-
-
 //webpack配置
-var eslintConfigDir = prod ? './config/.eslintrc.js' : './config/.eslintrc.dev.js';
-var postcssConfigDir = './config/postcss.config.js';
-var resolveConfigDir = './config/resolve.config.js';
+const eslintConfigDir = '../.eslintrc.js';
+const postcssConfigDir = './postcss.config.js';
+const resolveConfigDir = './resolve.config.js';
+
 
 //忽略不必要编译的文件
-// var entryIgnore = require('./entryignore.json');
+// const entryIgnore = require('./entryignore.json');
 
 //目录配置
-console.log('现在是' + platform + '编译:');
-
-var baseEntryDir = './src/' + platform + '/js/';
-var entryDir = baseEntryDir + '**/*.js';
-var outputDir = path.resolve(__dirname, './dist/' + platform + '/');
-// var outputPublicDir = 'http://static.joylive.tv/dist/pc/';
-var basePageEntry = './src/' + platform + '/html/';
-var basePageOutput = './dist/' + platform + '/html/';
-//需要清除的目录
-var cleanDir = [
-    path.resolve(__dirname, './dist/' + platform + '/')
-];
-
-var dll_manifest_name = 'dll_manifest_' + platform;
+const entryDir = path.resolve(__dirname, '../src/' + platform);
+const outputDir = path.resolve(__dirname, '../dist/' + platform);
 
 //入口js文件配置以及公共模块配置
-var entries = getEntry(entryDir);
+const entries = getEntry(entryDir + '/js/**/*.js');
 entries.vendors = ['common'];
 
 console.log(entries);
+
 
 module.exports = {
     /* 输入文件 */
@@ -59,7 +42,7 @@ module.exports = {
     output: {
         path: outputDir,
         publicPath: 'http://localhost:8080/',
-        filename: 'js/[name].js?v=[hash:8]'
+        filename: 'js/[name].js'
     },
     module: {
         rules: [{
@@ -75,25 +58,20 @@ module.exports = {
             test: /\.js$/,
             enforce: 'pre',
             loader: 'eslint-loader',
-            include: path.resolve(__dirname, entryDir),
-            exclude: [baseEntryDir + 'js/lib', baseEntryDir + 'js/component'],
+            //include:[entryDir + '/js/demo/'],
+            //exclude: [entryDir + '/js/components/'],
             options: {
-                fix: true
+                fix: true //自动修复不符合规则的代码
             }
         }, {
             test: /\.js$/,
             loader: 'babel-loader',
             options: {
                 presets: ['env']
-            },
-            exclude: ['node_modules', baseEntryDir + 'js/lib', baseEntryDir + 'js/component']
+            }
         }, {
             test: /\.css$/,
             use: ['style-loader', 'css-loader', 'postcss-loader'],
-            exclude: [baseEntryDir + 'css/lib']
-        }, {
-            test: /\.less$/,
-            use: ExtractTextPlugin.extract(['css-loader', 'postcss-loader', 'less-loader']),
         }, {
             test: /\.(png|jpg|gif)$/,
             loader: 'url-loader',
@@ -116,22 +94,15 @@ module.exports = {
         }]
     },
     plugins: [
-        new CleanWebpackPlugin(cleanDir),
-
-
-        new HashedChunkIdsPlugin(),
-        new webpack.HashedModuleIdsPlugin(),
-        new webpack.DllReferencePlugin({
-            // 指定一个路径作为上下文环境，需要与DllPlugin的context参数保持一致，建议统一设置为项目根目录
-            context: __dirname,
-            // 指定manifest.json
-            manifest: require('./' + dll_manifest_name + '.json'),
-            // 当前Dll的所有内容都会存放在这个参数指定变量名的一个全局变量下，注意与DllPlugin的name参数保持一致
-            name: 'dll_library',
+        new CleanWebpackPlugin(outputDir, {
+            allowExternal: true
         }),
 
+        //new HashedChunkIdsPlugin(),
 
-        new ExtractTextPlugin('css/[name].css?v=[contenthash:8]'),
+        new webpack.HashedModuleIdsPlugin(),
+
+        //载入配置
         new webpack.LoaderOptionsPlugin({
             options: {
                 eslint: require(eslintConfigDir),
@@ -145,21 +116,22 @@ module.exports = {
             chunks: 'vendors', // chunks是需要提取的模块
             minChunks: Infinity //公共模块最小被引用的次数
         }),
+        //移动库文件
         new CopyWebpackPlugin([
-            { from: baseEntryDir + '/lib', to: 'js/lib' },
+            { from: entryDir + '/js/lib', to: 'js/lib' },
         ])
     ]
 };
 
-/***** 生成组合后的html *****/
 
-var pages = getEntry(basePageEntry + '**/*.ejs');
+/***** 生成组合后的html *****/
+var pages = getEntry(entryDir + '/html/**/*.ejs');
 for (var pathname in pages) {
     var conf = {
         // html模板文件输入路径
-        template: path.resolve(__dirname, basePageEntry + pathname + '.js'),
+        template: entryDir + '/html/' + pathname + '.js',
         // html文件输出路径
-        filename: path.resolve(__dirname, basePageOutput + pathname + '.html'),
+        filename: outputDir + '/html/' + pathname + '.html',
         inject: true,
         cache: true, //只改动变动的文件
         minify: {
@@ -193,7 +165,7 @@ function getEntry(globPath) {
             let isJsFile = entry.indexOf('.js') !== -1;
             let dirArr = isJsFile ?
                 entry.split('/js/')[1].split('.js')[0] :
-                entry.split(basePageEntry)[1].split('.ejs')[0];
+                entry.split('/html/')[1].split('.ejs')[0];
 
             // basename = dirArr.join('/');
 
@@ -205,35 +177,4 @@ function getEntry(globPath) {
     });
 
     return entries;
-}
-
-
-/***** 区分开发环境和生产环境 *****/
-
-if (prod) {
-    console.log('当前编译环境：production');
-    module.exports.plugins = module.exports.plugins.concat([
-
-        //压缩css代码
-        new OptimizeCssAssetsPlugin({
-            assetNameRegExp: /\.css\.*(?!.*map)/g, //注意不要写成 /\.css$/g
-            cssProcessor: require('cssnano'),
-            cssProcessorOptions: {
-                discardComments: { removeAll: true },
-                // 避免 cssnano 重新计算 z-index
-                safe: true
-            },
-            canPrint: true
-        }),
-        //压缩JS代码
-        new webpack.optimize.UglifyJsPlugin({
-            compress: {
-                warnings: false
-            },
-            //sourceMap: true,
-            output: {
-                comments: false, // 去掉注释内容
-            }
-        })
-    ]);
 }
