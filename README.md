@@ -13,8 +13,7 @@ Git clone本项目后执行yarn install安装相关依赖包
 将src下源码编译并输出，目录下会生成dist文件夹，该文件夹中包含打包后的静态文件
 
 #### 遗留问题
-
-环境分离
+ejs不能热更新
 
 Sublime​Linter-contrib-eslint_d
 

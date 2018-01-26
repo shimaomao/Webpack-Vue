@@ -36,12 +36,12 @@ module.exports = merge(base, {
         host: 'localhost',
         port: 8080
     },
-    modules: {
+    module: {
         rules: [{
             test: /\.less$/,
             use: ['style-loader', 'css-loader', 'postcss-loader', 'less-loader'],
-        },]
-    }
+        }]
+    },
     plugins: [
         new webpack.DefinePlugin({
             'process.env': {

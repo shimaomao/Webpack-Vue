@@ -21,8 +21,8 @@ const postcssConfigDir = './postcss.config.js';
 const resolveConfigDir = './resolve.config.js';
 
 
-//忽略不必要编译的文件
-// const entryIgnore = require('./entryignore.json');
+//入口忽略文件
+const entryIgnore = require('./entryIgnore.json');
 
 //目录配置
 const entryDir = path.resolve(__dirname, '../src/' + platform);
@@ -158,20 +158,17 @@ for (var pathname in pages) {
 function getEntry(globPath) {
     var entries = {};
     glob.sync(globPath).forEach(function(entry) {
-        //排出layouts内的公共文件
+        //排出layouts,lib,components文件夹中内容
         if (entry.indexOf('layouts') == -1 && entry.indexOf('lib') == -1 && entry.indexOf('components') == -1) {
-
             //判断是js文件还是html模板文件
             let isJsFile = entry.indexOf('.js') !== -1;
-            let dirArr = isJsFile ?
+            let entryItem = isJsFile ?
                 entry.split('/js/')[1].split('.js')[0] :
                 entry.split('/html/')[1].split('.ejs')[0];
 
-            // basename = dirArr.join('/');
-
-            // if (entryIgnore.indexOf(basename) == -1) {
-            entries[dirArr] = entry;
-            // }
+            if (entryIgnore.indexOf(entryItem) == -1) {
+                entries[entryItem] = entry;
+            }
 
         }
     });
