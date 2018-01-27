@@ -30,7 +30,7 @@ module.exports = merge(base, {
         }),
 
         //new HashedChunkIdsPlugin(),
-        //new webpack.HashedModuleIdsPlugin(),
+        new webpack.HashedModuleIdsPlugin(),
         new webpack.DllReferencePlugin({
             // 指定一个路径作为上下文环境，需要与DllPlugin的context参数保持一致，建议统一设置为项目根目录
             context: __dirname,
@@ -40,7 +40,6 @@ module.exports = merge(base, {
             name: 'dll_library',
         }),
 
-        new ExtractTextPlugin('css/[name].css?v=[contenthash:8]'),
         //压缩css代码
         new OptimizeCssAssetsPlugin({
             assetNameRegExp: /\.css\.*(?!.*map)/g, //注意不要写成 /\.css$/g
@@ -52,6 +51,7 @@ module.exports = merge(base, {
             },
             canPrint: true
         }),
+        new ExtractTextPlugin('css/[name].css?v=[contenthash:8]'),
         //压缩JS代码
         new webpack.optimize.UglifyJsPlugin({
             compress: {

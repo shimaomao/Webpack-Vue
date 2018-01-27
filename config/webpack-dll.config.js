@@ -1,29 +1,15 @@
 const path = require('path');
 const webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const HashedChunkIdsPlugin = require('./hashedChunkIdsPlugin.js');
 
-//是否是pc编译
-const isPc = process.env.PLATFORM == 'pc' ? true : false;
 
 //webpack配置
 const resolveConfigDir = './resolve.config.js';
-
-if (isPc) {
-    var baseEntryDir = '../src/pc/';
-    // var entryDir = baseEntryDir + '**/*.js';
-    var outputDir = path.resolve(__dirname, '../src/pc/');
-    //var outPublicDir = 'http://static.guojiang.tv/pc/v4/';
-    var entries = ['vue', 'axios', 'jquery'];
-    var dll_manifest_name = 'dll_manifest_pc';
-} else {
-    var baseEntryDir = '../src/app/';
-    //var entryDir = baseEntryDir + '**/*.js';
-    var outputDir = path.resolve(__dirname, '../src/app/');
-    //var outPublicDir = 'http://static.cblive.tv/dist/app/';
-    var entries = ['vue', 'axios', 'flexible', 'webpack-zepto'];
-    var dll_manifest_name = 'dll_manifest_app';
-}
+let platform = process.env.PLATFORM == 'pc' ? 'pc' : 'app';
+let baseEntryDir = '../src/'+platform+'/';
+let outputDir = path.resolve(__dirname, '../src/'+platform+'/');
+let dll_manifest_name = 'dll_manifest_'+platform;
+let entries = platform == 'pc' ? ['vue', 'axios', 'jquery'] : ['vue', 'axios', 'flexible', 'webpack-zepto'];
 
 
 module.exports = {
@@ -34,25 +20,9 @@ module.exports = {
     },
     output: {
         path: outputDir,
-        //publicPath: outPublicDir,
-        filename: 'js/lib/[name].js?v=[chunkhash:8]',
+        filename: 'js/lib/[name].js',
         library: '[name]_library',
         /*libraryTarget: 'umd'*/
-    },
-    module: {
-        rules: [{
-                test: /\.js$/,
-                enforce: 'pre',
-                loader: 'eslint-loader',
-                options: {
-                    fix: true
-                }
-            },
-            {
-                test: /\.js$/,
-                loader: 'babel-loader',
-            }
-        ]
     },
     plugins: [
         new webpack.DefinePlugin({
@@ -60,7 +30,7 @@ module.exports = {
                 NODE_ENV: JSON.stringify('production')
             }
         }),
-        new CleanWebpackPlugin([ outputDir +'/js/lib'],{
+        new CleanWebpackPlugin([outputDir + '/js/lib'], {
             allowExternal: true
         }),
         //压缩JS代码
@@ -68,14 +38,12 @@ module.exports = {
             compress: {
                 warnings: false
             },
-            //sourceMap: true,
             output: {
                 comments: false
             }
         }),
 
-        //keep module.id stable when vender modules does not change
-        new HashedChunkIdsPlugin(),
+        //稳定模块ID
         new webpack.HashedModuleIdsPlugin(),
 
         new webpack.DllPlugin({
