@@ -4,6 +4,8 @@ const merge = require('webpack-merge');
 const base = require('./webpack.base.js');
 
 const platform = process.env.PLATFORM == 'pc' ? 'pc' : 'app';
+//目录配置
+const entryDir = path.resolve(__dirname, '../src/' + platform);
 const outputDir = path.resolve(__dirname, '../dist/' + platform);
 
 console.log('现在是' + platform + '编译:');
@@ -17,7 +19,7 @@ module.exports = merge(base, {
         //自动开启默认浏览器
         //open: true,
         //开启热模块替换,只重载页面中变化了的部分
-        hot: true,
+        //hot: true,
         //hotOnly:true,
         //开启gzip压缩
         compress: true,
@@ -40,6 +42,7 @@ module.exports = merge(base, {
         rules: [{
             test: /\.less$/,
             use: ['style-loader', 'css-loader', 'postcss-loader', 'less-loader'],
+            include:[entryDir + '/css/'],
         }]
     },
     plugins: [

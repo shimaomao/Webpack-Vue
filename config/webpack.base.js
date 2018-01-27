@@ -13,7 +13,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 
 //是否是pc编译
-var platform = process.env.PLATFORM == 'pc' ? 'pc' : 'app';
+let platform = process.env.PLATFORM == 'pc' ? 'pc' : 'app';
 
 //webpack配置
 const eslintConfigDir = '../.eslintrc.js';
@@ -58,14 +58,14 @@ module.exports = {
             test: /\.js$/,
             enforce: 'pre',
             loader: 'eslint-loader',
-            //include:[entryDir + '/js/demo/'],
-            //exclude: [entryDir + '/js/components/'],
+            include:[entryDir + '/js/demo/'],
             options: {
                 fix: true //自动修复不符合规则的代码
             }
         }, {
             test: /\.js$/,
             loader: 'babel-loader',
+            include:[entryDir + '/js/'],
             options: {
                 presets: ['env']
             }
