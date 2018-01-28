@@ -13,7 +13,7 @@ var dll_manifest_name = 'dll_manifest_' + platform;
 
 module.exports = merge(base, {
     output: {
-        //publicPath: 'http://localhost:8080/',
+        publicPath: 'http://localhost:8080/',
         filename: 'js/[name].js?v=[chunkhash:8]'
     },
     module: {

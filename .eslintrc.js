@@ -27,9 +27,6 @@ module.exports = {
         ],
         "no-console": [
             "off"
-        ],
-        "no-undef":[
-            "off"
         ]
     }
 };

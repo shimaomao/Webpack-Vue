@@ -17,7 +17,7 @@ let platform = process.env.PLATFORM == 'pc' ? 'pc' : 'app';
 
 //webpack配置
 const eslintConfigDir = '../.eslintrc.js';
-const postcssConfigDir = './postcss.config.js';
+const postcssConfigDir = '../.postcssrc.js';
 const resolveConfigDir = './resolve.config.js';
 
 
@@ -41,7 +41,6 @@ module.exports = {
     entry: entries,
     output: {
         path: outputDir,
-        publicPath: 'http://localhost:8080/',
         filename: 'js/[name].js'
     },
     module: {

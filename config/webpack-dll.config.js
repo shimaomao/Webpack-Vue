@@ -24,6 +24,21 @@ module.exports = {
         library: '[name]_library',
         /*libraryTarget: 'umd'*/
     },
+    module: {
+        rules: [{
+            test: /\.js$/,
+            enforce: 'pre',
+            loader: 'eslint-loader',
+            include: [entries],
+            options: {
+                fix: true
+            }
+        }, {
+            test: /\.js$/,
+            loader: 'babel-loader',
+            include: [entries]
+        }]
+    },
     plugins: [
         new webpack.DefinePlugin({
             'process.env': {
