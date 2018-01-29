@@ -42,7 +42,7 @@ module.exports = merge(base, {
         rules: [{
             test: /\.less$/,
             use: ['style-loader', 'css-loader', 'postcss-loader', 'less-loader'],
-            include:[entryDir + '/css/'],
+            include: [entryDir],
         }]
     },
     plugins: [

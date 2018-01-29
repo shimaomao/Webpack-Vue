@@ -1,14 +1,10 @@
 const path = require('path');
-//路径模式匹配模块glob
 const glob = require('glob');
 const webpack = require('webpack');
-//https://www.npmjs.com/package/html-webpack-plugin
 const htmlWebpackPlugin = require('html-webpack-plugin');
-//https://www.npmjs.com/package/clean-webpack-plugin
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-//https://www.npmjs.com/package/copy-webpack-plugin
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-
+const HtmlWebpackIncludeAssetsPlugin = require('html-webpack-include-assets-plugin');
 //const HashedChunkIdsPlugin = require('./hashedChunkIdsPlugin.js');
 
 
@@ -41,7 +37,7 @@ module.exports = {
     entry: entries,
     output: {
         path: outputDir,
-        filename: 'js/[name].js'
+        filename: 'js/[name].js?v=[hash:8]'
     },
     module: {
         rules: [{
@@ -57,14 +53,14 @@ module.exports = {
             test: /\.js$/,
             enforce: 'pre',
             loader: 'eslint-loader',
-            include:[entryDir + '/js/demo/'],
+            include:[entryDir],
             options: {
                 fix: true //自动修复不符合规则的代码
             }
         }, {
             test: /\.js$/,
             loader: 'babel-loader',
-            include:[entryDir + '/js/'],
+            include:[entryDir],
             options: {
                 presets: ['env']
             }
@@ -145,7 +141,10 @@ for (var pathname in pages) {
         conf.chunks = ['vendors'];
     }
 
-    module.exports.plugins.push(new htmlWebpackPlugin(conf));
+    module.exports.plugins.push(new htmlWebpackPlugin(conf),new HtmlWebpackIncludeAssetsPlugin({
+        assets: ['js/lib/dll.js', 'js/manifest.js'],
+        append: false
+    }));
 }
 
 
