@@ -5,7 +5,7 @@ const htmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackIncludeAssetsPlugin = require('html-webpack-include-assets-plugin');
-//const HashedChunkIdsPlugin = require('./hashedChunkIdsPlugin.js');
+const HashedChunkIdsPlugin = require('./hashedChunkIdsPlugin.js');
 
 
 //是否是pc编译
@@ -93,8 +93,8 @@ module.exports = {
             allowExternal: true
         }),
 
-        //new HashedChunkIdsPlugin(),
-
+        new HashedChunkIdsPlugin(),
+        //用于稳定 ModuleId
         new webpack.HashedModuleIdsPlugin(),
 
         //载入配置

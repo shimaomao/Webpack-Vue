@@ -19,7 +19,7 @@ module.exports = merge(base, {
         //自动开启默认浏览器
         //open: true,
         //开启热模块替换,只重载页面中变化了的部分
-        //hot: true,
+        hot: true,
         //hotOnly:true,
         //开启gzip压缩
         compress: true,
